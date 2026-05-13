@@ -1,0 +1,46 @@
+{% extends 'customer/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="mb-4 fw-bold text-primary-custom">Withdraw Funds</h2>
+
+        <div class="card-custom">
+            <div class="card-header-custom text-danger">
+                <i class="fas fa-minus-circle me-2"></i> Self Withdrawal
+            </div>
+            <div class="card-body p-4">
+                <div class="alert alert-warning d-flex align-items-center mb-4">
+                    <i class="fas fa-wallet fa-2x me-3"></i>
+                    <div>
+                        <small class="d-block text-uppercase fw-bold opacity-75">Available Balance</small>
+                        <span class="fs-4 fw-bold">₹{{ account.balance|floatformat:2 }}</span>
+                    </div>
+                </div>
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="mb-4">
+                        <label for="amount" class="form-label fw-bold">Amount to Withdraw (₹)</label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bg-white border-end-0">₹</span>
+                            <input type="number" step="0.01" class="form-control border-start-0 ps-0" id="amount"
+                                name="amount" placeholder="0.00" required min="1" max="{{ account.balance }}">
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-danger btn-lg">
+                            Withdraw Now <i class="fas fa-arrow-circle-up ms-2"></i>
+                        </button>
+                    </div>
+                    <p class="text-center text-muted mt-3 small">
+                        Note: Withdrawals are processed instantly.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'customer/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="mb-4 fw-bold text-primary-custom">KYC Verification</h2>
+
+        <div class="card-custom">
+            <div class="card-body p-5 text-center">
+                {% if kyc %}
+                {% if kyc.status == 'Approved' %}
+                <div class="mb-4 text-success">
+                    <i class="fas fa-check-circle fa-5x"></i>
+                </div>
+                <h3 class="fw-bold mb-3">Verification Complete</h3>
+                <p class="text-muted">Your KYC documents have been approved. You have full access to all banking
+                    features.</p>
+                <hr class="my-4">
+                <div class="d-flex justify-content-between text-start small text-muted">
+                    <span>Submitted on:</span>
+                    <span class="fw-bold">{{ kyc.submitted_at|date:"M d, Y" }}</span>
+                </div>
+                {% elif kyc.status == 'Pending' %}
+                <div class="mb-4 text-warning">
+                    <i class="fas fa-clock fa-5x"></i>
+                </div>
+                <h3 class="fw-bold mb-3">Verification Pending</h3>
+                <p class="text-muted">We are currently reviewing your documents. This process usually takes 24-48 hours.
+                </p>
+                {% else %}
+                <div class="mb-4 text-danger">
+                    <i class="fas fa-times-circle fa-5x"></i>
+                </div>
+                <h3 class="fw-bold mb-3">Verification Failed</h3>
+                <p class="text-muted">Your KYC documents were rejected. Please upload valid documents and try again.</p>
+                <div class="mt-4">
+                    <a href="{% url 'upload_kyc' %}" class="btn btn-primary-custom">Re-upload Documents</a>
+                </div>
+                {% endif %}
+                {% else %}
+                <div class="mb-4 text-primary-custom">
+                    <i class="fas fa-id-card fa-5x"></i>
+                </div>
+                <h3 class="fw-bold mb-3">Submit KYC</h3>
+                <p class="text-muted mb-4">You need to complete KYC verification to unlock transfers and withdrawals.
+                </p>
+                <a href="{% url 'upload_kyc' %}" class="btn btn-primary-custom btn-lg">Start Verification</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
